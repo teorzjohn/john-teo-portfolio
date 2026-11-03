@@ -75,11 +75,19 @@ export function About() {
 
         </div>
 
-        <figure className="about-portrait">
+        <figure className="about-portrait" data-image-state="loading">
           <img
+            className="image-loading-image"
             src={assetPath('/about/profile-full.webp')}
             alt="Portrait of John Teo"
+            onLoad={(event) => {
+              event.currentTarget.parentElement?.setAttribute('data-image-state', 'loaded');
+            }}
+            onError={(event) => {
+              event.currentTarget.parentElement?.setAttribute('data-image-state', 'error');
+            }}
           />
+          <span className="image-loading-skeleton" aria-hidden="true" />
         </figure>
 
         <section

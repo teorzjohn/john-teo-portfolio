@@ -31,16 +31,24 @@ export function Home() {
                   to={`/work/${project.slug}`}
                   aria-label={`View ${project.headline} case study`}
                   data-image-crop={project.image.crop}
+                  data-image-state="loading"
                 >
                   <img
-                    className="home-project-image"
+                    className="home-project-image image-loading-image"
                     src={assetPath(project.image.src)}
                     alt={project.image.alt}
                     width={project.image.width}
                     height={project.image.height}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     fetchPriority={index === 0 ? 'high' : 'auto'}
+                    onLoad={(event) => {
+                      event.currentTarget.parentElement?.setAttribute('data-image-state', 'loaded');
+                    }}
+                    onError={(event) => {
+                      event.currentTarget.parentElement?.setAttribute('data-image-state', 'error');
+                    }}
                   />
+                  <span className="image-loading-skeleton" aria-hidden="true" />
                   <span className="home-project-shade" aria-hidden="true" />
                   <span className="home-project-copy">
                     <span className="home-project-category">{project.category}</span>

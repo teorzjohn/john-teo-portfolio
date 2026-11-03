@@ -157,37 +157,46 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
             const isPriorityImage = copyIndex === centerCopy && imageIndex === 0;
 
             return (
-              <picture
+              <div
                 key={`${copyIndex}-${item.src}`}
                 className="vertical-loop-image-frame"
+                data-image-state="loading"
                 style={{
                   aspectRatio: item.width && item.height
                     ? `${item.width} / ${item.height}`
                     : undefined,
                 }}
               >
-                {srcSet ? (
-                  <source
-                    type="image/webp"
-                    srcSet={srcSet}
-                    sizes="100vw"
+                <picture className="vertical-loop-image-picture">
+                  {srcSet ? (
+                    <source
+                      type="image/webp"
+                      srcSet={srcSet}
+                      sizes="100vw"
+                    />
+                  ) : null}
+                  <img
+                    className="vertical-loop-image image-loading-image"
+                    src={item.src}
+                    alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    loading={isPriorityImage ? 'eager' : 'lazy'}
+                    fetchPriority={isPriorityImage ? 'high' : 'low'}
+                    decoding="async"
+                    draggable={false}
+                    onLoad={(event) => {
+                      event.currentTarget.closest<HTMLElement>('.vertical-loop-image-frame')
+                        ?.setAttribute('data-image-state', 'loaded');
+                    }}
+                    onError={(event) => {
+                      event.currentTarget.closest<HTMLElement>('.vertical-loop-image-frame')
+                        ?.setAttribute('data-image-state', 'error');
+                    }}
                   />
-                ) : null}
-                <img
-                  className="vertical-loop-image"
-                  src={item.src}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                  loading={isPriorityImage ? 'eager' : 'lazy'}
-                  fetchPriority={isPriorityImage ? 'high' : 'low'}
-                  decoding="async"
-                  draggable={false}
-                  onLoad={(event) => {
-                    event.currentTarget.dataset.loaded = 'true';
-                  }}
-                />
-              </picture>
+                </picture>
+                <span className="image-loading-skeleton" aria-hidden="true" />
+              </div>
             );
           })}
         </div>

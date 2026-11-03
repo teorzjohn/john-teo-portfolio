@@ -38,9 +38,22 @@ html:has(.vertical-loop-gallery)::-webkit-scrollbar {
 }
 
 .vertical-loop-image-frame {
+  position: relative;
   display: block;
+  overflow: hidden;
   width: 100%;
   background: var(--media-surface);
+}
+
+.vertical-loop-image-frame[data-image-state='loading'] {
+  background-color: #242424;
+}
+
+.vertical-loop-image-picture {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
 }
 
 .vertical-loop-image {
@@ -49,13 +62,7 @@ html:has(.vertical-loop-gallery)::-webkit-scrollbar {
   height: auto;
   aspect-ratio: auto;
   border-radius: 0;
-  opacity: 0;
   object-fit: initial;
-  transition: opacity 180ms ease-out;
-}
-
-.vertical-loop-image[data-loaded='true'] {
-  opacity: 1;
 }
 
 .project-gallery-placeholder {
