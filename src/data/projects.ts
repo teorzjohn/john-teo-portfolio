@@ -40,9 +40,6 @@ export type Project = {
 
 // Project slides are 1280 × 832 unless an asset uses a different ratio below.
 const exactImageDimensions: Record<string, [number, number]> = {
-  '/case-studies/client-connect/client-connect-01-optimized.jpg': [2200, 1237],
-  '/case-studies/client-connect/client-connect-02-optimized.jpg': [2200, 1252],
-  '/case-studies/client-connect/client-connect-03-optimized.jpg': [2200, 1237],
   '/case-studies/digital-wallet/dwallet01-full.webp': [5120, 3328],
   '/case-studies/digital-wallet/dwallet02-full.webp': [5120, 3328],
   '/case-studies/digital-wallet/dwallet03-full.webp': [5120, 3328],
