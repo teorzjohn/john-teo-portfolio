@@ -29,6 +29,7 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
   const galleryRef = useRef<HTMLElement>(null);
   const copyRefs = useRef<Array<HTMLDivElement | null>>([]);
   const cyclePeriodRef = useRef(0);
+  const copyCountRef = useRef(7);
   const [copyCount, setCopyCount] = useState(7);
 
   useLayoutEffect(() => {
@@ -42,6 +43,8 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
     let isCancelled = false;
     let isPositioned = false;
     let positioningFrame = 0;
+    let bufferGrowthFrame = 0;
+    let isExtendingBuffer = false;
     let scrollIdleTimeout: number | undefined;
     const supportsScrollEnd = 'onscrollend' in document;
 
@@ -66,13 +69,25 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
     const isMobileViewport = () =>
       window.matchMedia('(max-width: 860px), (any-pointer: coarse)').matches;
 
-    const updateCopyCount = (cyclePeriod: number) => {
+    const setRenderedCopyCount = (nextCount: number) => {
+      if (copyCountRef.current === nextCount) {
+        return;
+      }
+
+      copyCountRef.current = nextCount;
+      setCopyCount(nextCount);
+    };
+
+    const updateCopyCount = (cyclePeriod: number, shrinkToRequired = false) => {
       if (cyclePeriod <= 0) {
         return;
       }
 
       const requiredCount = getRequiredCopyCount(cyclePeriod);
-      setCopyCount((currentCount) => currentCount === requiredCount ? currentCount : requiredCount);
+      const nextCount = isMobileViewport() && !shrinkToRequired
+        ? Math.max(copyCountRef.current, requiredCount)
+        : requiredCount;
+      setRenderedCopyCount(nextCount);
     };
 
     const scrollImmediately = (top: number) => {
@@ -112,6 +127,44 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       }
     };
 
+    const extendTrailingBuffer = () => {
+      if (!isMobileViewport() || isExtendingBuffer) {
+        return;
+      }
+
+      const cyclePeriod = cyclePeriodRef.current;
+      if (cyclePeriod <= 0) {
+        return;
+      }
+
+      const documentHeight = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight,
+      );
+      const remainingScroll = documentHeight - window.innerHeight - window.scrollY;
+      const runway = Math.max(window.innerHeight * 2, cyclePeriod * 2);
+
+      if (remainingScroll > runway) {
+        return;
+      }
+
+      const copiesToAppend = Math.max(
+        centerCopy,
+        Math.ceil((runway + window.innerHeight) / cyclePeriod),
+      );
+      setRenderedCopyCount(copyCountRef.current + copiesToAppend);
+      isExtendingBuffer = true;
+      bufferGrowthFrame = window.requestAnimationFrame(() => {
+        bufferGrowthFrame = 0;
+        isExtendingBuffer = false;
+      });
+    };
+
+    const finishMobileScroll = () => {
+      repositionIfNeeded();
+      updateCopyCount(cyclePeriodRef.current, true);
+    };
+
     const handleScroll = () => {
       if (!isPositioned || cyclePeriodRef.current <= 0) {
         return;
@@ -122,6 +175,8 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
         repositionIfNeeded();
         return;
       }
+
+      extendTrailingBuffer();
 
       if (supportsScrollEnd) {
         return;
@@ -135,13 +190,13 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       }
 
       window.clearTimeout(scrollIdleTimeout);
-      scrollIdleTimeout = window.setTimeout(repositionIfNeeded, mobileScrollIdleDelay);
+      scrollIdleTimeout = window.setTimeout(finishMobileScroll, mobileScrollIdleDelay);
     };
 
     const handleScrollEnd = () => {
       if (isMobileViewport()) {
         window.clearTimeout(scrollIdleTimeout);
-        repositionIfNeeded();
+        finishMobileScroll();
       }
     };
 
@@ -184,6 +239,9 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       isCancelled = true;
       if (positioningFrame) {
         window.cancelAnimationFrame(positioningFrame);
+      }
+      if (bufferGrowthFrame) {
+        window.cancelAnimationFrame(bufferGrowthFrame);
       }
       window.clearTimeout(scrollIdleTimeout);
       window.removeEventListener('scroll', handleScroll);
