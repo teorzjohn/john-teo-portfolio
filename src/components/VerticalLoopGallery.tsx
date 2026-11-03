@@ -6,8 +6,9 @@ type VerticalLoopGalleryProps = {
   title: string;
 };
 
-const centerCopy = 1;
+const centerCopy = 3;
 const responsiveWidths = [1280, 2560];
+const mobileScrollIdleDelay = 400;
 
 const getWebpSrcSet = (src: string, width?: number) => {
   const isFullResolutionWebp = /-full\.webp$/i.test(src);
@@ -28,7 +29,7 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
   const galleryRef = useRef<HTMLElement>(null);
   const copyRefs = useRef<Array<HTMLDivElement | null>>([]);
   const cyclePeriodRef = useRef(0);
-  const [copyCount, setCopyCount] = useState(3);
+  const [copyCount, setCopyCount] = useState(7);
 
   useLayoutEffect(() => {
     const gallery = galleryRef.current;
@@ -41,6 +42,8 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
     let isCancelled = false;
     let isPositioned = false;
     let positioningFrame = 0;
+    let scrollIdleTimeout: number | undefined;
+    const supportsScrollEnd = 'onscrollend' in document;
 
     const getHeaderHeight = () =>
       document.querySelector<HTMLElement>('.site-header')?.getBoundingClientRect().height ?? 0;
@@ -53,12 +56,15 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
     const getRequiredCopyCount = (cyclePeriod: number) => {
       const rowGap = Number.parseFloat(window.getComputedStyle(gallery).rowGap) || 0;
       const trailingCopies = Math.max(
-        1,
+        isMobileViewport() ? centerCopy : 1,
         Math.ceil((window.innerHeight + rowGap - getHeaderHeight()) / cyclePeriod),
       );
 
       return centerCopy + 1 + trailingCopies;
     };
+
+    const isMobileViewport = () =>
+      window.matchMedia('(max-width: 860px), (any-pointer: coarse)').matches;
 
     const updateCopyCount = (cyclePeriod: number) => {
       if (cyclePeriod <= 0) {
@@ -77,16 +83,25 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       root.style.scrollBehavior = previousScrollBehavior;
     };
 
-    const handleScroll = () => {
+    const getScrollOffset = () => {
       const cyclePeriod = cyclePeriodRef.current;
 
       if (!isPositioned || cyclePeriod <= 0) {
-        return;
+        return undefined;
       }
 
       const middleTop = middleCopy.getBoundingClientRect().top + window.scrollY;
       const firstCycleScrollTop = middleTop - getHeaderHeight();
-      const scrollOffset = window.scrollY - firstCycleScrollTop;
+      return window.scrollY - firstCycleScrollTop;
+    };
+
+    const repositionIfNeeded = () => {
+      const cyclePeriod = cyclePeriodRef.current;
+      const scrollOffset = getScrollOffset();
+
+      if (scrollOffset === undefined || cyclePeriod <= 0) {
+        return;
+      }
 
       if (scrollOffset < 0) {
         const cyclesToAdd = Math.ceil(-scrollOffset / cyclePeriod);
@@ -94,6 +109,39 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       } else if (scrollOffset >= cyclePeriod) {
         const cyclesToSubtract = Math.floor(scrollOffset / cyclePeriod);
         scrollImmediately(window.scrollY - cyclesToSubtract * cyclePeriod);
+      }
+    };
+
+    const handleScroll = () => {
+      if (!isPositioned || cyclePeriodRef.current <= 0) {
+        return;
+      }
+
+      if (!isMobileViewport()) {
+        window.clearTimeout(scrollIdleTimeout);
+        repositionIfNeeded();
+        return;
+      }
+
+      if (supportsScrollEnd) {
+        return;
+      }
+
+      const scrollOffset = getScrollOffset();
+      const cyclePeriod = cyclePeriodRef.current;
+      if (scrollOffset === undefined || (scrollOffset >= 0 && scrollOffset < cyclePeriod)) {
+        window.clearTimeout(scrollIdleTimeout);
+        return;
+      }
+
+      window.clearTimeout(scrollIdleTimeout);
+      scrollIdleTimeout = window.setTimeout(repositionIfNeeded, mobileScrollIdleDelay);
+    };
+
+    const handleScrollEnd = () => {
+      if (isMobileViewport()) {
+        window.clearTimeout(scrollIdleTimeout);
+        repositionIfNeeded();
       }
     };
 
@@ -114,13 +162,17 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
         cyclePeriodRef.current = getCyclePeriod();
         updateCopyCount(cyclePeriodRef.current);
         const galleryTop = gallery.getBoundingClientRect().top + window.scrollY;
-        const initialScrollTop = galleryTop + cyclePeriodRef.current - getHeaderHeight();
+        const initialScrollTop =
+          galleryTop + cyclePeriodRef.current * centerCopy - getHeaderHeight();
         scrollImmediately(initialScrollTop);
         isPositioned = true;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    if (supportsScrollEnd) {
+      document.addEventListener('scrollend', handleScrollEnd);
+    }
     window.addEventListener('resize', handleResize);
     const galleryResizeObserver = typeof ResizeObserver === 'undefined'
       ? undefined
@@ -133,7 +185,11 @@ export function VerticalLoopGallery({ media, title }: VerticalLoopGalleryProps) 
       if (positioningFrame) {
         window.cancelAnimationFrame(positioningFrame);
       }
+      window.clearTimeout(scrollIdleTimeout);
       window.removeEventListener('scroll', handleScroll);
+      if (supportsScrollEnd) {
+        document.removeEventListener('scrollend', handleScrollEnd);
+      }
       window.removeEventListener('resize', handleResize);
       galleryResizeObserver?.disconnect();
     };
