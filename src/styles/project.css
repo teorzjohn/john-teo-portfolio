@@ -1,0 +1,111 @@
+.media-sequence {
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  gap: var(--grid-gap);
+  padding: 0 var(--media-x) clamp(4rem, 7vw, 7rem);
+}
+
+.media-sequence-looping-gallery {
+  max-width: none;
+  margin: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 0;
+}
+
+html:has(.vertical-loop-gallery) {
+  scroll-behavior: auto;
+  scrollbar-width: none;
+}
+
+html:has(.vertical-loop-gallery)::-webkit-scrollbar {
+  display: none;
+}
+
+.vertical-loop-gallery {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 8px;
+  min-width: 0;
+}
+
+.vertical-loop-cycle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 8px;
+  min-width: 0;
+}
+
+.vertical-loop-image-frame {
+  display: block;
+  width: 100%;
+  background: var(--media-surface);
+}
+
+.vertical-loop-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  border-radius: 0;
+  opacity: 0;
+  object-fit: initial;
+  transition: opacity 180ms ease-out;
+}
+
+.vertical-loop-image[data-loaded='true'] {
+  opacity: 1;
+}
+
+.project-gallery-placeholder {
+  display: grid;
+  min-height: min(72svh, 760px);
+  padding: clamp(2rem, 7vw, 6rem) var(--page-x);
+  place-items: center;
+  background: var(--media-surface);
+  color: var(--ink);
+  text-align: center;
+}
+
+.project-gallery-placeholder p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 0.98;
+}
+
+.project-gallery-placeholder span {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.project-info-button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 7.65rem;
+  min-height: 2.6rem;
+  border: 0;
+  border-radius: 16px;
+  background: rgba(252, 252, 251, 0.72);
+  backdrop-filter: blur(18px);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 0 1.15rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 12px 34px rgba(20, 20, 20, 0.16);
+}
+
+.project-info-button:hover {
+  background: rgba(252, 252, 251, 0.86);
+  color: var(--ink);
+  box-shadow: 0 12px 34px rgba(20, 20, 20, 0.16);
+}

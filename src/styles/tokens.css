@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+
+  --bg: #FFFFFF;
+  --ink: #141414;
+  --muted: #69645c;
+  --line: rgba(20, 20, 20, 0.15);
+  --panel: #fbfaf5;
+  --panel-copy: #3f3b34;
+  --media-surface: #d8d2c6;
+  --card-surface: #ded8cb;
+  --accent: #d7ff45;
+  --accent-ink: #11150c;
+  --focus: #2f5cff;
+
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Syne', sans-serif;
+  --text-caption: 0.78rem;
+  --text-caption-mobile: 0.72rem;
+  --text-body: 1rem;
+  --text-body-large: 1.08rem;
+  --text-meta: 0.875rem;
+  --text-display: clamp(2.6rem, 4.6vw, 4.85rem);
+  --text-display-small: clamp(1.7rem, 3vw, 3rem);
+  --leading-tight: 0.95;
+  --leading-body: 1.45;
+  --leading-longform: 1.58;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-fast: 160ms;
+  --duration-base: 180ms;
+  --duration-slow: 600ms;
+
+  --content-max-width: 90rem;
+  --page-x: clamp(1rem, 3vw, 3rem);
+  --grid-columns: repeat(12, minmax(0, 1fr));
+  --grid-gap: clamp(1rem, 2vw, 2rem);
+  --section-y: clamp(4rem, 9vw, 8rem);
+  --media-x: var(--page-x);
+  --media-radius: clamp(1.2rem, 2vw, 2rem);
+  --pill-radius: 999px;
+}

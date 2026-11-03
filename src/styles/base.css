@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 320px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  text-rendering: geometricPrecision;
+}
+
+body:has(.drawer-panel) {
+  overflow: hidden;
+}
+
+img,
+video {
+  display: block;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+.brand {
+  font-family: var(--font-display);
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--leading-tight);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.brand,
+.site-nav a,
+.project-card-meta span,
+.drawer-top {
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.eyebrow,
+.home-hero-meta p,
+.project-card-meta p,
+.drawer-heading p,
+.drawer-outcome-label,
+.site-footer p {
+  color: var(--muted);
+}
+
+.eyebrow {
+  color: #141414;
+}
+
+.home-hero-meta p,
+.project-card-meta p,
+.drawer-copy p,
+.drawer-outcome-copy {
+  font-size: var(--text-body);
+}
+
+.drawer-heading p {
+  line-height: var(--leading-body);
+}
+
+.drawer-copy p,
+.drawer-outcome-copy {
+  color: var(--panel-copy);
+  line-height: var(--leading-longform);
+}
+
+.site-nav a,
+.project-card a,
+.project-info-button,
+.icon-button {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.site-nav a:active,
+.project-card a:active,
+.project-info-button:active,
+.icon-button:active {
+  transform: scale(0.97);
+}
+
+.project-info-button,
+.not-found-page a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.6rem;
+  border: 1px solid var(--ink);
+  border-radius: var(--pill-radius);
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  transition:
+    background var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.project-info-button-label {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.08;
+}
+
+.project-info-button-label span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.project-info-button:hover,
+.not-found-page a:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
