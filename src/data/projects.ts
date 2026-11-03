@@ -74,7 +74,7 @@ const exactImageDimensions: Record<string, [number, number]> = {
   '/case-studies/integrated-tech-hub/propdev02-full.webp': [1280, 832],
   '/case-studies/integrated-tech-hub/propdev03-full.webp': [1280, 832],
   '/case-studies/integrated-tech-hub/propdev04-full.webp': [1280, 832],
-  '/case-studies/soft-tagging/softtag05-full.webp': [1280, 832],
+  '/case-studies/soft-tagging/softtag05-full.webp': [5120, 3328],
   '/case-studies/easter-egg/easteregg01-full.webp': [5120, 3328],
   '/case-studies/easter-egg/easteregg02-full.webp': [5120, 3328],
   '/case-studies/easter-egg/easteregg03-full.webp': [5120, 3328],
