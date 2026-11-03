@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/strip-local-original-images.mjs",
+    "build:github-pages": "tsc -b && vite build --mode github-pages && node scripts/strip-local-original-images.mjs",
     "preview": "vite preview",
     "images:optimize": "node scripts/optimize-case-study-images.mjs",
     "images:optimize:full": "node scripts/optimize-full-resolution-images.mjs"

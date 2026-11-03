@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MotionPage } from '../components/MotionPage';
 import { homeFeaturedProjects } from '../data/homeFeatured';
+import { assetPath } from '../utils/assetPath';
 
 export function Home() {
   return (
@@ -33,7 +34,7 @@ export function Home() {
                 >
                   <img
                     className="home-project-image"
-                    src={project.image.src}
+                    src={assetPath(project.image.src)}
                     alt={project.image.alt}
                     width={project.image.width}
                     height={project.image.height}

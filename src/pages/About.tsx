@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { MotionPage } from '../components/MotionPage';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { assetPath } from '../utils/assetPath';
 
 gsap.registerPlugin(useGSAP);
 
@@ -76,7 +77,7 @@ export function About() {
 
         <figure className="about-portrait">
           <img
-            src="/about/profile-full.webp"
+            src={assetPath('/about/profile-full.webp')}
             alt="Portrait of John Teo"
           />
         </figure>

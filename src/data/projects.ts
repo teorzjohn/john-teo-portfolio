@@ -1,3 +1,5 @@
+import { assetPath } from '../utils/assetPath';
+
 export type ProjectMedia = {
   type: 'image';
   src: string;
@@ -84,7 +86,7 @@ const exactImageDimensions: Record<string, [number, number]> = {
 
 const addImageDimensions = (media: ProjectMedia): ProjectMedia => {
   const [width, height] = exactImageDimensions[media.src] ?? [1280, 832];
-  return { ...media, width, height };
+  return { ...media, src: assetPath(media.src), width, height };
 };
 
 const projectData: Project[] = [
