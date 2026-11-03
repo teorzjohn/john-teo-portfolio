@@ -555,8 +555,6 @@ const projectData: Project[] = [
     focusLabels: ['Research'],
     headerDescription: 'Research for Google',
     shortDescription: 'Researched barriers to smart home adoption across APAC consumers.',
-    summary:
-      'The living space is becoming a more integrated connected system with smart devices and media platforms. However there are gaps in the overall consumer experience. To uncover what some of the barriers and pain points are for consumers, Google partnered with Fjord to dig deeper into what would help people adopt and use smart home technologies.',
     extended: [
       {
         heading: 'Promise versus reality',
