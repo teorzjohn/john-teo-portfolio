@@ -1,0 +1,115 @@
+.home-page,
+.project-page,
+.about-page,
+.not-found-page {
+  min-height: 100vh;
+}
+
+.layout-container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(18px);
+}
+
+.site-header[data-scroll-aware='true'] {
+  transition:
+    transform 300ms var(--ease-out),
+    opacity 260ms var(--ease-out);
+}
+
+.site-header[data-scroll-aware='true'][data-hidden='true'] {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.site-header[data-scroll-aware='true']:focus-within {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.site-header-inner {
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  column-gap: var(--grid-gap);
+  align-items: center;
+  padding: 1rem var(--page-x);
+}
+
+.brand {
+  grid-column: 1 / span 2;
+  font-size: 16px;
+}
+
+.site-nav {
+  grid-column: 9 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.85rem, 2vw, 1.5rem);
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: none;
+  transition:
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+}
+
+.site-nav a.active {
+  color: #08f;
+  font-weight: 500;
+}
+
+.home-projects,
+.site-footer {
+  padding: var(--section-y) var(--page-x);
+}
+
+.section-kicker {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  column-gap: var(--grid-gap);
+}
+
+.section-kicker .eyebrow {
+  grid-column: 1 / span 3;
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  align-items: center;
+  column-gap: var(--grid-gap);
+  padding-bottom: 2rem;
+}
+
+.site-footer p {
+  grid-column: 1 / span 4;
+  margin-bottom: 0;
+}
+
+.site-footer a {
+  grid-column: 9 / -1;
+  justify-self: end;
+  font-weight: 700;
+}

@@ -1,0 +1,269 @@
+@media (max-width: 860px) {
+  .site-header-inner {
+    padding-block: 0.85rem;
+  }
+
+  .home-hero {
+    padding-top: 64px;
+  }
+
+  .section-kicker,
+  .home-hero,
+  .home-projects,
+  .home-projects-shell,
+  .about-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero h1,
+  .home-hero-meta,
+  .home-projects-shell,
+  .section-kicker,
+  .section-kicker .eyebrow,
+  .site-footer p,
+  .site-footer a,
+  .about-content,
+  .about-intro,
+  .about-lines,
+  .about-copy,
+  .about-engagements,
+  .about-portrait {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .about-hero {
+    row-gap: 1.5em;
+    padding-top: 42px;
+  }
+
+  .about-content {
+    display: grid;
+    max-width: 46rem;
+  }
+
+  .about-engagements {
+    margin-top: 4.5em;
+  }
+
+  .about-portrait {
+    order: -1;
+    justify-self: center;
+    width: min(80%, 24rem);
+    margin-top: 0;
+  }
+
+  .media-sequence {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero h1 {
+    font-size: 4.8rem;
+  }
+
+  .home-project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-project-copy {
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .home-project-title {
+    font-size: clamp(1.5rem, 3.2vw, 1.8rem);
+  }
+
+  .project-info-button {
+    min-width: 7.35rem;
+  }
+
+  .drawer-shell {
+    right: auto;
+    left: 50%;
+    bottom: 1rem;
+    translate: -50% 0;
+  }
+
+  .drawer-shell[data-panel='true'] {
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .drawer-shell[data-panel='true'] .drawer-top {
+    padding-top: calc(0.75rem + env(safe-area-inset-top));
+  }
+
+  .drawer-shell[data-panel='true'] .drawer-content {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .site-footer {
+    align-items: flex-start;
+    row-gap: 1rem;
+  }
+
+  .site-footer a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 860px), (any-pointer: coarse) {
+  .brand,
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+
+  .about-copy a,
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+
+  .about-copy a {
+    vertical-align: middle;
+  }
+
+  .not-found-page a,
+  .project-info-button {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+
+  .icon-button {
+    inline-size: 44px;
+    block-size: 44px;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 860px) and (orientation: portrait) {
+  .about-portrait {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .about-engagements {
+    margin-top: 0.5em;
+  }
+
+  .about-portrait {
+    width: 100%;
+  }
+
+  .about-engagement-row {
+    min-height: 6.25rem;
+    padding-block: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer {
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0;
+  }
+
+  .site-footer p {
+    grid-column: 1;
+  }
+
+  .site-footer a {
+    grid-column: 2;
+    justify-self: end;
+    white-space: nowrap;
+  }
+
+  .eyebrow,
+  .home-project-label,
+  .project-card-meta span,
+  .drawer-top {
+    font-size: var(--text-caption-mobile);
+  }
+
+  .site-nav {
+    gap: 0.8rem;
+  }
+
+  .home-hero h1,
+  .not-found-page h1 {
+    line-height: 0.9;
+  }
+
+  .home-hero h1 {
+    font-size: 3.15rem;
+  }
+
+  .home-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-project-copy {
+    bottom: 1rem;
+  }
+
+  .home-project-title {
+    font-size: 1.7rem;
+  }
+
+  .project-card-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .about-hero {
+    padding-top: 42px;
+  }
+
+  .about-intro h1,
+  .about-engagements h2 {
+    font-size: 1.75rem;
+  }
+
+  .about-copy p,
+  .about-engagement-row {
+    font-size: 1.05rem;
+    line-height: 1.28;
+  }
+
+  .about-engagement-row {
+    grid-template-areas:
+      'role year'
+      'detail year';
+    grid-template-columns: minmax(0, 1fr) max-content;
+    column-gap: 1rem;
+    row-gap: 0em;
+  }
+
+  .about-engagement-role {
+    grid-area: role;
+  }
+
+  .about-engagement-detail {
+    grid-area: detail;
+  }
+
+  .about-engagement-year {
+    grid-area: year;
+    align-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
